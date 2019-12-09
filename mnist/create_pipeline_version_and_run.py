@@ -13,10 +13,9 @@ args = parser.parse_args()
 client = kfp.Client()
 print('Now in create_pipeline_version_and_run.py...')
 #create version
-version_body = 
-{"name": args.version_name, 
-"code_source_url": args.code_source_url, 
-"package_url": {"pipeline_url": args.package_url}, 
+version_body = {"name": args.version_name, \
+"code_source_url": args.code_source_url, \
+"package_url": {"pipeline_url": args.package_url}, \
 "resource_references": [{"key": {"id": args.pipeline_id, "type":3}, "relationship":1}]}
 print('version body: {}', version_body)
 
@@ -29,10 +28,7 @@ run_name = args.run_name if args.run_name else 'run' + version_id
 resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
-run_body={
-    "name":run_name,
-    "resource_references": resource_references
-}
+run_body={"name":run_name,"resource_references": resource_references}
 try:
     client.runs.create_run(run_body)
 except:
