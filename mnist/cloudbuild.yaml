@@ -33,10 +33,20 @@ steps:
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
 
-  - name: "gcr.io/jingzhangjz-experiment/ubuntu-curl"
-    args: ["bash", "./mnist/curl.bash", "$COMMIT_SHA", "$_PIPELINE_ID"]
-    id: "CreatePipelineVersionAndRun"
 
+  - name: "python:3.7-slim"
+    entrypoint: "/bin/sh"
+    args: [
+        "-c",
+        "cd ${_CODE_PATH};
+        pip3 install kfp==0.1.37;
+        python create_pipeline_version_and_run.py 
+        --package_url https://storage.googleapis.com/test-pipeline-version/$COMMIT_SHA/pipeline.zip 
+        --pipeline_id ${_PIPELINE_ID} 
+        --version_name $COMMIT_SHA"
+      ]
+    id: "MnistCreatePipelineVersionAndRun"
+    
 images:
   - "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA"
   - "gcr.io/dldaisy-project/mnist_train:latest"
