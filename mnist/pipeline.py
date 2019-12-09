@@ -15,7 +15,7 @@ args = parser.parse_args()
 def mnist_pipeline():
    train_step = dsl.ContainerOp(
        name='train mnist and start tensorboard',
-       image='gcr.io/dldaisy-project/mnist-train:' + args.commit_id
+       image='gcr.io/dldaisy-project/mnist_train:latest'
    ).apply(use_gcp_secret('user-gcp-sa'))
 
 
