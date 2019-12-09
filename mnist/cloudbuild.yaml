@@ -27,7 +27,8 @@ steps:
     args:
       [
         "cp",
-        "/workspace/pipeline.zip gs://test-pipeline-version/$COMMIT_SHA/pipeline.zip"
+        "/workspace/pipeline.zip",
+        "gs://test-pipeline-version/$COMMIT_SHA/pipeline.zip"
       ]
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
