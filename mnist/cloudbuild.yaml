@@ -39,14 +39,8 @@ steps:
     args: [
         "-c",
         "cd ${_CODE_PATH};
-         pip3 install kfp==0.1.37;",
-        "python create_pipeline_version_and_run.py",
-        "--package_url",
-        _HTTP_PATH,
-        "--pipeline_id",
-        _PIPELINE_ID,
-        "--version_name",
-        $COMMIT_SHA,
+        pip3 install kfp==0.1.37;
+        python create_pipeline_version_and_run.py --package_url $_HTTP_PATH --pipeline_id $_PIPELINE_ID --version_name $COMMIT_SHA"
       ]
     id: "MnistCreatePipelineVersionAndRun"
 images:
