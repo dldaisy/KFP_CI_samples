@@ -26,9 +26,9 @@ steps:
   - name: "gcr.io/cloud-builders/gsutil"
     args:
       [
-        "cp /workspace/pipeline.zip $_GSBUCKET_PATH;
-         echo $_GSBUCKET_PATH;
-         echo $_HTTP_PATH;
+        "cp /workspace/pipeline.zip ${_GSBUCKET_PATH};
+         echo ${_GSBUCKET_PATH};
+         echo ${_HTTP_PATH};
          "
       ]
     id: "MnistUploadPipeline"
@@ -41,7 +41,7 @@ steps:
         "-c",
         "cd ${_CODE_PATH};
         pip3 install kfp==0.1.37;
-        python create_pipeline_version_and_run.py --package_url $_HTTP_PATH --pipeline_id $_PIPELINE_ID --version_name $COMMIT_SHA"
+        python create_pipeline_version_and_run.py --package_url ${_HTTP_PATH} --pipeline_id ${_PIPELINE_ID} --version_name $COMMIT_SHA"
       ]
     id: "MnistCreatePipelineVersionAndRun"
 images:
