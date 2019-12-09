@@ -52,5 +52,5 @@ substitutions:
   _CODE_PATH: /workspace/mnist
   _NAMESPACE: kubeflow
   _PIPELINE_ID: cb5b84f6-d11b-49b1-a084-93d43a53cd34
-  _GSBUCKET_PATH: "gs://test-pipeline-version/$$COMMIT_SHA/pipeline.zip"
-  _HTTP_PATH: "https://storage.googleapis.com/test-pipeline-version/$$COMMIT_SHA/pipeline.zip"
+  _GSBUCKET_PATH: gs://test-pipeline-version/${COMMIT_SHA}/pipeline.zip
+  _HTTP_PATH: https://storage.googleapis.com/test-pipeline-version/${COMMIT_SHA}/pipeline.zip
