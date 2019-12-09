@@ -1,3 +1,4 @@
+from typing import NamedTuple
 def mnisttrain() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadata')]):
     import tensorflow as tf
     import json
