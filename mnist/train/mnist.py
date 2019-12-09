@@ -22,7 +22,7 @@ def mnist() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadat
 
     model.fit(x=x_train, 
               y=y_train, 
-              epochs=5, 
+              epochs=5, mnist-train
               validation_data=(x_test, y_test), 
               callbacks=[tensorboard_callback])
     
@@ -37,4 +37,4 @@ def mnist() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadat
     return output(json.dumps(metadata))
 
 if __name__ == '__main__':
-    return mnist()
+    mnist()
