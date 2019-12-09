@@ -16,7 +16,7 @@ def mnist_pipeline():
    train_step = dsl.ContainerOp(
        name='train mnist and start tensorboard',
        image='gcr.io/dldaisy-project/mnist_train:latest',
-       output_artifact_paths='/mlpipeline-ui-metadata.json'
+       output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
    ).apply(use_gcp_secret('user-gcp-sa'))
 
 
