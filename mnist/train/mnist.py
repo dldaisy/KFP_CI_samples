@@ -1,4 +1,4 @@
-def mnist() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadata')]):
+def mnisttrain() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadata')]):
     import tensorflow as tf
     import json
     mnist = tf.keras.datasets.mnist
@@ -37,4 +37,4 @@ def mnist() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_metadat
     return output(json.dumps(metadata))
 
 if __name__ == '__main__':
-    mnist()
+    mnisttrain()
