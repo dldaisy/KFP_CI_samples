@@ -1,0 +1,60 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA",
+        "-t",
+        "gcr.io/dldaisy-project/mnist_train:latest",
+        "${_CODE_PATH}/train",
+      ]
+    id: "BuildImages"
+
+  - name: "python:3.7-slim"
+    entrypoint: "/bin/sh"
+    args: [
+        "-c",
+        "cd ${_CODE_PATH};
+        pip3 install cffi==1.12.3 --upgrade;
+        pip3 install kfp==0.1.37;
+        python pipeline.py --commit_id $COMMIT_SHA;
+        cp pipeline.py.zip /workspace/pipeline.zip",
+      ]
+    id: "PackagePipeline"
+
+  - name: "gcr.io/cloud-builders/gsutil"
+    args:
+      [
+        "cp",
+        "/workspace/pipeline.zip",
+        _GSBUCKET_PATH,
+      ]
+    id: "UploadPipeline"
+    waitFor: ["PackagePipeline"]
+
+
+  - name: "python:3.7-slim"
+    args: [
+        
+        "cd ${_CODE_PATH};
+         pip3 install kfp==0.1.37;",
+        "python create_pipeline_version_and_run.py",
+        "--package_url",
+        _HTTP_PATH,
+        "--pipeline_id",
+        _PIPELINE_ID,
+        "--version_name",
+        $COMMIT_SHA,
+      ]
+    id: "CreatePipelineVersionAndRun"
+images:
+  - "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA"
+  - "gcr.io/dldaisy-project/mnist_train:latest"
+
+substitutions:
+  _CODE_PATH: /workspace/mnist
+  _NAMESPACE: kubeflow
+  _PIPELINE_ID: cb5b84f6-d11b-49b1-a084-93d43a53cd34
+  _GSBUCKET_PATH: gs://test-pipeline-version/$COMMIT_SHA/pipeline.zip
+  _HTTP_PATH: https://storage.googleapis.com/test-pipeline-version/$COMMIT_SHA/pipeline.zip
