@@ -26,9 +26,10 @@ steps:
   - name: "gcr.io/cloud-builders/gsutil"
     args:
       [
-        "cp",
-        "/workspace/pipeline.zip",
-        _GSBUCKET_PATH,
+        "cp /workspace/pipeline.zip $_GSBUCKET_PATH;
+         echo $_GSBUCKET_PATH;
+         echo $_HTTP_PATH;
+         "
       ]
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
