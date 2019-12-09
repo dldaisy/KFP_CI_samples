@@ -31,7 +31,7 @@ steps:
         _GSBUCKET_PATH,
       ]
     id: "MnistUploadPipeline"
-    waitFor: ["PackagePipeline"]
+    waitFor: ["MnistPackagePipeline"]
 
 
   - name: "python:3.7-slim"
