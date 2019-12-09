@@ -17,7 +17,7 @@ version_body = {"name": args.version_name, \
 "code_source_url": args.code_source_url, \
 "package_url": {"pipeline_url": args.package_url}, \
 "resource_references": [{"key": {"id": args.pipeline_id, "type":3}, "relationship":1}]}
-print('version body: {}', version_body)
+print('version body: {}'.format(version_body))
 
 response = client.pipelines.create_pipeline_version(version_body)
 
