@@ -37,5 +37,6 @@ def mnisttrain() -> NamedTuple('MnistOutput', [('mlpipeline_ui_metadata', 'UI_me
     output = namedtuple('MnistOutput', ['mlpipeline_ui_metadata'])
     return output(json.dumps(metadata))
 
+
 if __name__ == '__main__':
     mnisttrain()
