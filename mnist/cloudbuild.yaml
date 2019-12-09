@@ -9,7 +9,7 @@ steps:
         "gcr.io/dldaisy-project/mnist_train:latest",
         "${_CODE_PATH}/train",
       ]
-    id: "BuildImages"
+    id: "MnistBuildImages"
 
   - name: "python:3.7-slim"
     entrypoint: "/bin/sh"
@@ -21,7 +21,7 @@ steps:
         python pipeline.py --commit_id $COMMIT_SHA;
         cp pipeline.py.zip /workspace/pipeline.zip",
       ]
-    id: "PackagePipeline"
+    id: "MnistPackagePipeline"
 
   - name: "gcr.io/cloud-builders/gsutil"
     args:
@@ -30,7 +30,7 @@ steps:
         "/workspace/pipeline.zip",
         _GSBUCKET_PATH,
       ]
-    id: "UploadPipeline"
+    id: "MnistUploadPipeline"
     waitFor: ["PackagePipeline"]
 
 
@@ -48,7 +48,7 @@ steps:
         "--version_name",
         $COMMIT_SHA,
       ]
-    id: "CreatePipelineVersionAndRun"
+    id: "MnistCreatePipelineVersionAndRun"
 images:
   - "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA"
   - "gcr.io/dldaisy-project/mnist_train:latest"

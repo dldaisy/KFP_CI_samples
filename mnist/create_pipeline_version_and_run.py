@@ -11,19 +11,18 @@ parser.add_argument('--code_source_url', help = 'url of source code', type=str, 
 args = parser.parse_args()
 
 client = kfp.Client()
-
+print('Now in create_pipeline_version_and_run.py...')
 #create version
 version_body = 
 {"name": args.version_name, 
 "code_source_url": args.code_source_url, 
 "package_url": {"pipeline_url": args.package_url}, 
 "resource_references": [{"key": {"id": args.pipeline_id, "type":3}, "relationship":1}]}
+print('version body: {}', version_body)
 
-try:
-    response = client.pipelines.create_pipeline_version(body)
-except:
-    return
+response = client.pipelines.create_pipeline_version(body)
 
+print('Now start to create a run...')
 version_id = response.id
 # create run
 run_name = args.run_name if args.run_name else 'run' + version_id
