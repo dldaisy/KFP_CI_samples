@@ -10,7 +10,7 @@ parser.add_argument('--experiment_id', help = 'experiment id',type=str)
 parser.add_argument('--code_source_url', help = 'url of source code', type=str, default='')
 args = parser.parse_args()
 
-client = kfp.Client()
+client = kfp.Client(host='http://34.68.34.55:8888')
 print('your client is :{}'.format(client))
 print('Now in create_pipeline_version_and_run.py...')
 print('your api_client host is:')
