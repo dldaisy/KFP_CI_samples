@@ -11,6 +11,7 @@ parser.add_argument('--code_source_url', help = 'url of source code', type=str, 
 args = parser.parse_args()
 
 client = kfp.Client()
+print('your client is :{}'.format(client))
 print('Now in create_pipeline_version_and_run.py...')
 #create version
 version_body = {"name": args.version_name, \
