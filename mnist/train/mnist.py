@@ -1,4 +1,4 @@
-def mnisttrain():
+def mnisttrain(storage_bucket:str):
     import tensorflow as tf
     import json
     mnist = tf.keras.datasets.mnist
@@ -17,7 +17,8 @@ def mnisttrain():
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
     import datetime
-    log_dir="gs://dldaisy-new/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    import os
+    log_dir = os.path.join(storage_bucket, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     model.fit(x=x_train, 
@@ -31,4 +32,10 @@ def mnisttrain():
       f.write(log_dir)
 
 if __name__ == '__main__':
-    mnisttrain()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--storage_bucket', type=str)
+
+    args = parser.parse_args()
+    mnisttrain(args.storage_bucket)

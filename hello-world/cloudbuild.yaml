@@ -47,7 +47,7 @@ images:
   - "gcr.io/dldaisy-project/helloworld-ci:latest"
 
 substitutions:
-  _CODE_PATH: /workspace/experiment/ci/hello-world
+  _CODE_PATH: /workspace/hello-world
   _NAMESPACE: kubeflow
   _PIPELINE_ID: 3def2908-1d36-4bc4-a00e-56e5477b031c
   _EXPERIMENT_NAME: helloworldexp

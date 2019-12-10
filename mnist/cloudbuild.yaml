@@ -4,9 +4,9 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA",
+        "${_GCR_PATH}/mnist_train:$COMMIT_SHA",
         "-t",
-        "gcr.io/dldaisy-project/mnist_train:latest",
+        "${_GCR_PATH}/mnist_train:latest",
         "${_CODE_PATH}/train",
         "-f",
         "${_CODE_PATH}/train/Dockerfile",
@@ -18,9 +18,9 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/dldaisy-project/mnist_tensorboard:$COMMIT_SHA",
+        "${_GCR_PATH}/mnist_tensorboard:$COMMIT_SHA",
         "-t",
-        "gcr.io/dldaisy-project/mnist_tensorboard:latest",
+        "${_GCR_PATH}/mnist_tensorboard:latest",
         "${_CODE_PATH}/tensorboard",
         "-f",
         "${_CODE_PATH}/tensorboard/Dockerfile",
@@ -45,7 +45,7 @@ steps:
       [
         "cp",
         "/workspace/pipeline.zip",
-        "gs://test-pipeline-version/$COMMIT_SHA/pipeline.zip"
+        "${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
       ]
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
@@ -58,7 +58,8 @@ steps:
         "cd ${_CODE_PATH};
         pip3 install kfp==0.1.37;
         python create_pipeline_version_and_run.py 
-        --package_url https://storage.googleapis.com/test-pipeline-version/$COMMIT_SHA/pipeline.zip 
+        --tensorboard_bucket ${_GS_BUCKET}
+        --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
         --version_name $COMMIT_SHA
         --host ${_HOST_NAME}"
@@ -66,13 +67,15 @@ steps:
     id: "MnistCreatePipelineVersionAndRun"
 
 images:
-  - "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA"
-  - "gcr.io/dldaisy-project/mnist_train:latest"
-  - "gcr.io/dldaisy-project/mnist_tensorboard:$COMMIT_SHA"
-  - "gcr.io/dldaisy-project/mnist_tensorboard:latest"
+  - "${_GCR_PATH}/mnist_train:$COMMIT_SHA"
+  - "${_GCR_PATH}/mnist_train:latest"
+  - "${_GCR_PATH}/mnist_tensorboard:$COMMIT_SHA"
+  - "${_GCR_PATH}/mnist_tensorboard:latest"
 
 substitutions:
   _CODE_PATH: /workspace/mnist
+  _GCR_PATH: '[YOUR CLOUD REGISTRY], for example: gcr.io/my-project'
+  _GS_BUCKET: '[YOUR GS BUCKET TO STORE PIPELINE AND LAUNCH TENSORBOARD], for example: gs://my-bucket'
   _NAMESPACE: kubeflow
-  _PIPELINE_ID: cb5b84f6-d11b-49b1-a084-93d43a53cd34
-  _HOST_NAME: http://34.68.34.55:8888
+  _PIPELINE_ID: '[PIPELINE ID TO CREATE A VERSION ON], get it on kfp UI'
+  _HOST_NAME: '[EXTERNAL HOST NAME OF ml-pipeline service], read README.md for more info.'

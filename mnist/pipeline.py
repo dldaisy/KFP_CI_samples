@@ -12,10 +12,12 @@ args = parser.parse_args()
    name='mnist pipeline',
    description='A pipeline to train a model on mnist dataset and start a tensorboard.'
 )
-def mnist_pipeline():
+def mnist_pipeline(storage_bucket: str):
    train_step = dsl.ContainerOp(
        name='train mnist model',
        image='gcr.io/dldaisy-project/mnist_train:latest',
+       command = ['python', '/mnist.py']
+       arguments = ['--logdir', storage_bucket]
        file_outputs = {'logdir': '/logdir.txt'},
    ).apply(use_gcp_secret('user-gcp-sa'))
 
