@@ -8,8 +8,24 @@ steps:
         "-t",
         "gcr.io/dldaisy-project/mnist_train:latest",
         "${_CODE_PATH}/train",
+        "-f",
+        "./train/Dockerfile",
       ]
-    id: "MnistBuildImages"
+    id: "MnistBuildFirstImage"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/dldaisy-project/mnist_tensorboard:$COMMIT_SHA",
+        "-t",
+        "gcr.io/dldaisy-project/mnist_tensorboard:latest",
+        "${_CODE_PATH}/tensorboard",
+        "-f",
+        "./tensorboard/Dockerfile",
+      ]
+    id: "MnistBuildSecondImage"
 
 
   - name: "python:3.7-slim"

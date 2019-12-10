@@ -1,5 +1,5 @@
 from typing import NamedTuple
-def mnisttrain(output_path: str='/'):
+def mnisttrain():
     import tensorflow as tf
     import json
     mnist = tf.keras.datasets.mnist
@@ -27,14 +27,8 @@ def mnisttrain(output_path: str='/'):
               validation_data=(x_test, y_test), 
               callbacks=[tensorboard_callback])
     
-    metadata = {
-      'outputs' : [{
-        'type': 'tensorboard',
-        'source': log_dir,
-      }]
-    }
-    with open(output_path+'mlpipeline-ui-metadata.json', 'w') as f:
-      json.dump(metadata, f)
+    with open('/logdir.txt', 'w') as f:
+      f.write(log_dir)
 
 if __name__ == '__main__':
     from typing import NamedTuple
