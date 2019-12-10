@@ -1,4 +1,3 @@
-from typing import NamedTuple
 def mnisttrain():
     import tensorflow as tf
     import json
@@ -26,10 +25,10 @@ def mnisttrain():
               epochs=5, 
               validation_data=(x_test, y_test), 
               callbacks=[tensorboard_callback])
-    
+
+    print('At least tensorboard callbacks are correct')
     with open('/logdir.txt', 'w') as f:
       f.write(log_dir)
 
 if __name__ == '__main__':
-    from typing import NamedTuple
     mnisttrain()
