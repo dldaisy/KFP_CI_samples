@@ -14,5 +14,5 @@ if __name__ == '__main__':
         'source': args.logdir,
       }]
     }
-    with open(output_path+'mlpipeline-ui-metadata.json', 'w') as f:
+    with open(args.output_path+'mlpipeline-ui-metadata.json', 'w') as f:
       json.dump(metadata, f)
