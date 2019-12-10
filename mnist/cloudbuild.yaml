@@ -68,6 +68,8 @@ steps:
 images:
   - "gcr.io/dldaisy-project/mnist_train:$COMMIT_SHA"
   - "gcr.io/dldaisy-project/mnist_train:latest"
+  - "gcr.io/dldaisy-project/mnist_tensorboard:$COMMIT_SHA"
+  - "gcr.io/dldaisy-project/mnist_tensorboard:latest"
 
 substitutions:
   _CODE_PATH: /workspace/mnist
