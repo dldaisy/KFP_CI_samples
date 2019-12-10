@@ -1,8 +1,14 @@
 # Mnist CI Pipeline
 
+## What you can learn in this sample
+* CI process of a simple but general ML pipeline.
+* Launch a tensorboard as one pipeline step
+* Data passing between steps
+
+
 ## What needs to be done before run
 * Create a secret following the troubleshooting parts in [https://github.com/kubeflow/pipelines/tree/master/manifests/kustomize]()
-* Set up a trigger
+* Set up a trigger in cloud build, and link it to your github repo
 * Substitute the 'substitution' field in cloudbuild.yaml:
 
 `_GCR_PATH`: '[YOUR CLOUD REGISTRY], for example: gcr.io/my-project' \
@@ -17,6 +23,7 @@ For the constant **_HOST_NAME**, you need to expose the 'ml-pipeline' service to
 - Wait for a seconds. Get the endpoints in 'Exposing services'. This will be the _HOST_NAME to put in the cloudbuild.yaml file.
 
 * Set your container registy public
+* Try a commit to your repo, then you can observe the build process triggered automatically 
 
 
 
