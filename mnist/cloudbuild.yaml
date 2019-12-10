@@ -9,7 +9,7 @@ steps:
         "gcr.io/dldaisy-project/mnist_train:latest",
         "${_CODE_PATH}/train",
         "-f",
-        "./train/Dockerfile",
+        "${_CODE_PATH}/train/Dockerfile",
       ]
     id: "MnistBuildFirstImage"
 
@@ -23,7 +23,7 @@ steps:
         "gcr.io/dldaisy-project/mnist_tensorboard:latest",
         "${_CODE_PATH}/tensorboard",
         "-f",
-        "./tensorboard/Dockerfile",
+        "${_CODE_PATH}/tensorboard/Dockerfile",
       ]
     id: "MnistBuildSecondImage"
 
