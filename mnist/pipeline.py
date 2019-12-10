@@ -23,7 +23,7 @@ def mnist_pipeline():
       name = 'visualize training result with tensorboard',
       image = 'gcr.io/dldaisy-project/mnist_tensorboard:latest',
       command = ['python'],
-      arguments = ['./tensorboard.py', '--logdir %s' % train_step.outputs['logdir']]
+      arguments = ['./tensorboard.py', '--logdir %s' % train_step.outputs['logdir']],
       output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
    ).apply(use_gcp_secret('user-gcp-sa'))
 
