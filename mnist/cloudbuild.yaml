@@ -45,7 +45,7 @@ steps:
       [
         "cp",
         "/workspace/pipeline.zip",
-        "${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
+        "gs://${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
       ]
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
@@ -58,7 +58,7 @@ steps:
         "cd ${_CODE_PATH};
         pip3 install kfp==0.1.37;
         python create_pipeline_version_and_run.py 
-        --tensorboard_bucket ${_GS_BUCKET}
+        --tensorboard_bucket gs://${_GS_BUCKET}
         --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
         --version_name $COMMIT_SHA
@@ -76,6 +76,6 @@ substitutions:
   _CODE_PATH: /workspace/mnist
   _NAMESPACE: kubeflow
   _GCR_PATH: gcr.io/dldaisy-project
-  _GS_BUCKET: gs://test-pipeline-version
+  _GS_BUCKET: test-pipeline-version
   _PIPELINE_ID: d21c1431-89c4-4f9b-9d84-378f34a148e5
   _HOST_NAME: 34.68.34.55:8888
