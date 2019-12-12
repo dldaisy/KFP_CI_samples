@@ -23,7 +23,6 @@ version_body = {"name": args.version_name, \
 "package_url": {"pipeline_url": args.package_url}, \
 "resource_references": [{"key": {"id": args.pipeline_id, "type":3}, "relationship":1}]}
 print('version body: {}'.format(version_body))
-
 response = client.pipelines.create_pipeline_version(version_body)
 
 print('Now start to create a run...')
