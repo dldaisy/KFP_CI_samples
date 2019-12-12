@@ -25,6 +25,7 @@ version_body = {"name": args.version_name, \
 print('version body: {}'.format(version_body))
 response = client.pipelines.create_pipeline_version(version_body)
 
+print('args are: {}'.format(args))
 print('Now start to create a run...')
 version_id = response.id
 # create run
