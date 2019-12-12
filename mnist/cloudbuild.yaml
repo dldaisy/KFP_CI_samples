@@ -75,7 +75,8 @@ images:
 substitutions:
   _CODE_PATH: /workspace/mnist
   _NAMESPACE: kubeflow
-  _GCR_PATH: gcr.io/dldaisy-project
-  _GS_BUCKET: test-pipeline-version
-  _PIPELINE_ID: d21c1431-89c4-4f9b-9d84-378f34a148e5
-  _HOST_NAME: http://34.68.34.55:8888
+  _GCR_PATH: '[YOUR CLOUD REGISTRY], for example: gcr.io/my-project'
+  _GS_BUCKET: '[YOUR GS BUCKET TO STORE PIPELINE AND LAUNCH TENSORBOARD], for example: input "my-bucket" if your bucket is "gs://my-bucket"'
+  _PIPELINE_ID: '[PIPELINE ID TO CREATE A VERSION ON], get it on kfp UI'
+  _HOST_NAME: '[EXTERNAL HOST NAME OF ml-pipeline service], read README.md for more info.'
+
