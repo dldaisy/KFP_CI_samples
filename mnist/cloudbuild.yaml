@@ -78,4 +78,4 @@ substitutions:
   _GCR_PATH: gcr.io/dldaisy-project
   _GS_BUCKET: test-pipeline-version
   _PIPELINE_ID: d21c1431-89c4-4f9b-9d84-378f34a148e5
-  _HOST_NAME: 34.68.34.55:8888
+  _HOST_NAME: http://34.68.34.55:8888

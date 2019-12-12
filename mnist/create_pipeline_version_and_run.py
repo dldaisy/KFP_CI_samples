@@ -29,6 +29,7 @@ response = client.pipelines.create_pipeline_version(version_body)
 print('Now start to create a run...')
 version_id = response.id
 # create run
+print('version response: {}'.format(response))
 run_name = args.run_name if args.run_name else 'run' + version_id
 resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
