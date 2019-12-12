@@ -37,10 +37,9 @@ if args.experiment_id:
 run_body={"name":run_name,
           "pipeline_spec":{"parameters": {"name": "storage_bucket","value": args.tensorboard_bucket}},
           "resource_references": resource_references}
-try:
-    client.runs.create_run(run_body)
-except:
-    print('Error creating run...')
+
+client.runs.create_run(run_body)
+
 
 
     
