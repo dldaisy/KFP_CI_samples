@@ -17,7 +17,7 @@ def mnist_pipeline(storage_bucket: str):
        name='train mnist model',
        image='gcr.io/dldaisy-project/mnist_train:latest',
        command = ['python', '/mnist.py'],
-       arguments = ['--logdir', storage_bucket],
+       arguments = ['--storage_bucket', storage_bucket],
        file_outputs = {'logdir': '/logdir.txt'},
    ).apply(use_gcp_secret('user-gcp-sa'))
 
