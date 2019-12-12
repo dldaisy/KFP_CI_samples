@@ -25,6 +25,7 @@ version_body = {"name": args.version_name, \
 print('version body: {}'.format(version_body))
 response = client.pipelines.create_pipeline_version(version_body)
 
+print('args are: {}'.format(args))
 print('Now start to create a run...')
 version_id = response.id
 # create run
@@ -34,12 +35,14 @@ resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
 run_body={"name":run_name,
-          "pipeline_spec":{"parameters": {"name": "storage_bucket","value": args.tensorboard_bucket}},
+          "pipeline_spec":{"parameters": [{"name": "storage_bucket", "value": args.tensorboard_bucket}]},
           "resource_references": resource_references}
+print('run body is :{}'.format(run_body))
 try:
     client.runs.create_run(run_body)
 except:
-    print('Error creating run...')
+    print('Error Creating Run...')
+
 
 
     
