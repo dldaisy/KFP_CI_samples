@@ -35,9 +35,9 @@ resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
 run_body={"name":run_name,
-          "pipeline_spec":{"parameters": {"name": "storage_bucket","value": args.tensorboard_bucket}},
+          "pipeline_spec":{"parameters": {"name": "storage_bucket", "value": args.tensorboard_bucket}},
           "resource_references": resource_references}
-
+print('run body is : {}'.format(run_body))
 client.runs.create_run(run_body)
 
 
