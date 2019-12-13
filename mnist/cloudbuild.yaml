@@ -85,4 +85,3 @@ substitutions:
   _GCR_PATH: gcr.io/dldaisy-project
   _GS_BUCKET: test-pipeline-version
   _PIPELINE_ID: d21c1431-89c4-4f9b-9d84-378f34a148e5
-  _HOST_NAME: http://35.202.52.73/api/v1/namespaces/kubeflow/services/ml-pipeline:http/proxy
