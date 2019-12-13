@@ -58,6 +58,7 @@ steps:
         "cd ${_CODE_PATH};
         apt-get update;
         apt-get install -y python3-pip;
+        apt-get install -y libssl-dev libffi-dev;
         pip3 install kfp==0.1.37;
         pip3 install kubernetes;
         python3 create_pipeline_version_and_run.py 
