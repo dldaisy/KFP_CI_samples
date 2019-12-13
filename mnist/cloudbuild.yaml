@@ -57,10 +57,10 @@ steps:
         "-c",
         "cd ${_CODE_PATH};
         apt-get update;
-        apt-get install python3-pip;
+        apt-get install -y python3-pip;
         pip3 install kfp==0.1.37;
         pip install kubernetes;
-        python create_pipeline_version_and_run.py 
+        python3 create_pipeline_version_and_run.py 
         --tensorboard_bucket gs://${_GS_BUCKET}
         --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
