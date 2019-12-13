@@ -4,7 +4,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--tensorboard_bucket', help='Required. gs bucket to store tensorboard', type=str)
 parser.add_argument('--version_name', help='Required. Name of the new version. Must be unique.', type=str)
-parser.add_argument('--host', help='Required. Host address of kfp.Client. You can expose one from ml-pipeline', type=str)
+parser.add_argument('--host', help='Host address of kfp.Client. Will be get from cluster automatically, type=str, default='')
 parser.add_argument('--run_name', help='name of the new run.', type=str, default='')
 parser.add_argument('--package_url', help='Required. pipeline package url', type=str)
 parser.add_argument('--pipeline_id', help = 'Required. pipeline id',type=str)
@@ -12,8 +12,12 @@ parser.add_argument('--experiment_id', help = 'experiment id',type=str)
 parser.add_argument('--code_source_url', help = 'url of source code', type=str, default='')
 args = parser.parse_args()
 
-client = kfp.Client(host=args.host)
-print('your client is :{}'.format(client))
+if args.host:
+    client = kfp.Client(host=args.host)
+else:
+    client = kfp.Client()
+
+print('your client configuration is :{}'.format(client.pipelines.api_client.configuration.__dict__))
 print('Now in create_pipeline_version_and_run.py...')
 print('your api_client host is:')
 print(client.pipelines.api_client.configuration.host)
