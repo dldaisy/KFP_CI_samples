@@ -51,11 +51,13 @@ steps:
     waitFor: ["MnistPackagePipeline"]
 
 
-  - name: "python:3.7-slim"
+  - name: "gcr.io/cloud-builders/kubectl"
     entrypoint: "/bin/sh"
     args: [
         "-c",
         "cd ${_CODE_PATH};
+        apt-get update;
+        apt-get install python3-pip;
         pip3 install kfp==0.1.37;
         pip install kubernetes;
         python create_pipeline_version_and_run.py 
@@ -64,6 +66,9 @@ steps:
         --pipeline_id ${_PIPELINE_ID} 
         --version_name $COMMIT_SHA"
       ]
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=us-central1-a"
+      - "CLOUDSDK_CONTAINER_CLUSTER=client"
     id: "MnistCreatePipelineVersionAndRun"
 
 images:
