@@ -12,7 +12,7 @@ parser.add_argument('--experiment_id', help = 'experiment id',type=str)
 parser.add_argument('--code_source_url', help = 'url of source code', type=str, default='')
 args = parser.parse_args()
 
-if host:
+if args.host:
     client = kfp.Client(host=args.host)
 else:
     client = kfp.Client()

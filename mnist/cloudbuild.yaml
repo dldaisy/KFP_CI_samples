@@ -62,8 +62,7 @@ steps:
         --tensorboard_bucket gs://${_GS_BUCKET}
         --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
-        --version_name $COMMIT_SHA
-        --host ${_HOST_NAME}"
+        --version_name $COMMIT_SHA"
       ]
     id: "MnistCreatePipelineVersionAndRun"
 
