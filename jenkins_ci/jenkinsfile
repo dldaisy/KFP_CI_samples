@@ -10,7 +10,6 @@ node {
         sh "docker build -t $imagename ./helloworld/"
     }
 
-
     // package pipeline
     stage("PackagePipeline"){
         withPythonEnv('python3'){
