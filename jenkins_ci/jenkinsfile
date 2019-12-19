@@ -7,7 +7,7 @@ node {
         scm = checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'http://github.com/dldaisy/jenkins_test.git']]])
         imagename = "helloworld-ci:$scm.GIT_COMMIT"
         // build image
-        sh "docker build -t $imagename ./helloworld/"
+        sh "docker build -t $imagename jenkins_ci/helloworld/"
     }
 
     // package pipeline
