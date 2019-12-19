@@ -21,7 +21,6 @@ node {
         }
     }
 
-    
     // upload pipeline to some storage so that it can be accessed by kubeflow pipeline CreatePipelineVersion API
     // in this example, we set up a local http server to expose jenkins workspace to kfp API
     stage("UploadPipeline"){
