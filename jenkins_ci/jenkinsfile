@@ -4,10 +4,10 @@ node {
     // build hello-world image
     stage("BuildImages"){
         // step1: specify source
-        scm = checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'http://github.com/dldaisy/jenkins_test.git']]])
-        imagename = "helloworld-ci:$scm.GIT_COMMIT"
+        checkout scm
+        def imagename = "helloworld-ci:$scm.GIT_COMMIT"
         // build image
-        sh "docker build -t $imagename jenkins_ci/helloworld/"
+        def image = docker.build("hello-world:${env.BUILD_ID}")
     }
 
     // package pipeline
