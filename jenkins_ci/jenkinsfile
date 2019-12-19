@@ -5,9 +5,9 @@ node {
     stage("BuildImages"){
         // step1: specify source
         checkout scm
-        def imagename = "helloworld-ci:$scm.GIT_COMMIT"
+        def imagename = "helloworld-ci:${env.BUILD_ID}"
         // build image
-        def image = docker.build("hello-world:${env.BUILD_ID}")
+        def image = docker.build(imagename, "./helloworld")
     }
 
     // package pipeline
