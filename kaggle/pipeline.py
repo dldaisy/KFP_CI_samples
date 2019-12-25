@@ -11,8 +11,8 @@ def kaggle_houseprice():
         name ='download dataset',
         image = 'gcr.io/dldaisy-project/kaggle_download:latest',
         command = ['python', 'download_data.py'],
-        args = ["--bucket_name", 'dldaisy-test'],
-        file_outputs = {'train_dataset': 'train.txt'}
+        arguments = ["--bucket_name", 'dldaisy-test'],
+        file_outputs = {'train_dataset': '/train.txt'}
     ).apply(use_gcp_secret('user-gcp-sa'))
 
     stepVisualizeTable = dsl.ContainerOp(
