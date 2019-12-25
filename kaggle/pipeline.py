@@ -8,8 +8,8 @@ import argparse
 )
 def kaggle_houseprice():
     stepDownloadData = dsl.ContainerOp(
-        name ='download dataset'
-        image = 'gcr.io/dldaisy-project/houseprice:downloaddata',
+        name ='download dataset',
+        image = 'gcr.io/dldaisy-project/kaggle_download:latest',
         command = ['python', 'download_data.py'],
         args = ["--bucket_name", 'dldaisy-test']
         file_outputs = {'train_dataset': 'train.txt'}
@@ -17,7 +17,7 @@ def kaggle_houseprice():
 
     stepVisualizeTable = dsl.ContainerOp(
         name = 'visualize dataset',
-        image = 'gcr.io/dldaisy-project/houseprice:visualize',
+        image = 'gcr.io/dldaisy-project/kaggle_visualize:latest',
         command = ['python', 'visualize.py'],
         arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']]
     ).apply(use_gcp_secret('user-gcp-sa'))

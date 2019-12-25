@@ -5,6 +5,8 @@ steps:
         "build",
         "-t",
         "${_GCR_PATH}/kaggle_download:$COMMIT_SHA",
+        "-t",
+        "${_GCR_PATH}/kaggle_download:latest",
         "${_CODE_PATH}/download_dataset",
         "-f",
         "${_CODE_PATH}/download_dataset/Dockerfile",
@@ -17,6 +19,8 @@ steps:
         "build",
         "-t",
         "${_GCR_PATH}/kaggle_visualize:$COMMIT_SHA",
+        "-t",
+        "${_GCR_PATH}/kaggle_visualize:latest",
         "${_CODE_PATH}/visualize_table",
         "-f",
         "${_CODE_PATH}/visualize_table/Dockerfile",
@@ -29,7 +33,7 @@ steps:
         "-c",
         "cd ${_CODE_PATH};
         pip3 install cffi==1.12.3 --upgrade;
-        pip3 install kfp==0.1.37;
+        pip3 install kfp==0.1.38;
         python pipeline.py;
         cp pipeline.py.zip /workspace/pipeline.zip",
       ]
@@ -70,6 +74,8 @@ steps:
 images:
   - "${_GCR_PATH}/kaggle_download:$COMMIT_SHA"
   - "${_GCR_PATH}/kaggle_visualize:$COMMIT_SHA"
+  - "${_GCR_PATH}/kaggle_download:latest"
+  - "${_GCR_PATH}/kaggle_visualize:latest"
 
 substitutions:
   _CODE_PATH: /workspace/kaggle
