@@ -23,6 +23,7 @@ For the constant **_HOST_NAME**, you need to expose the 'ml-pipeline' service to
 - Wait for a seconds. Get the endpoints in 'Exposing services'. This will be the _HOST_NAME to put in the cloudbuild.yaml file.
 
 * Set your container registy public
+* Set the gs bucket public for viewers
 * Try a commit to your repo, then you can observe the build process triggered automatically 
 
 
