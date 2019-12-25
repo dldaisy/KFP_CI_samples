@@ -1,7 +1,8 @@
 # visualizer with html
 
 def datahtml(
-    bucket_name
+    bucket_name,
+    train_file_path
 ):
     import json
     import seaborn as sns
@@ -48,4 +49,4 @@ if __name__ == '__main__':
     parser.add_argument('--train_file_path', type = str)
     args = parser.parse_args()
 
-    datahtml(args.bucket_name)
+    datahtml(args.bucket_name, args.train_file_path)
