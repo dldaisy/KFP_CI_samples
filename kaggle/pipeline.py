@@ -16,10 +16,19 @@ def kaggle_houseprice():
     ).apply(use_gcp_secret('user-gcp-sa'))
 
     stepVisualizeTable = dsl.ContainerOp(
-        name = 'visualize dataset',
-        image = 'gcr.io/dldaisy-project/kaggle_visualize:latest',
+        name = 'visualize dataset in table',
+        image = 'gcr.io/dldaisy-project/kaggle_visualize_table:latest',
         command = ['python', 'visualize.py'],
         arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']],
+        output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
+    ).apply(use_gcp_secret('user-gcp-sa'))
+
+    stepVisualizeHTML = dsl.ContainerOp(
+        name = 'visualize dataset in html',
+        image = 'gcr.io/dldaisy-project/kaggle_visualize_html:latest',
+        command = ['python', 'visualize.py'],
+        arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']
+                     '--html_path', 'gs://dldaisy-test/kaggle.html'],
         output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
     ).apply(use_gcp_secret('user-gcp-sa'))
 
