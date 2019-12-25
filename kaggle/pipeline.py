@@ -23,8 +23,9 @@ def kaggle_houseprice():
     ).apply(use_gcp_secret('user-gcp-sa'))
 
 if __name__ == '__main__':
-   import kfp.compiler as compiler
-   compiler.Compiler().compile(kaggle_houseprice, __file__ + '.zip')
+    import kfp.compiler as compiler
+    compiler.Compiler().compile(kaggle_houseprice, __file__ + '.zip')
+
     """
     stepVisualizeHTML = dsl.ContainerOp(
         name = 'print data distribution'
