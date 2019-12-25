@@ -1,6 +1,6 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-  - args:
+    args:
       [
         "build",
         "-t",
@@ -9,10 +9,10 @@ steps:
         "-f",
         "${_CODE_PATH}/download_dataset/Dockerfile",
       ]
-    id: "Build Download Data Image"
+    id: "BuildDownloadDataImage"
 
   - name: "gcr.io/cloud-builders/docker"
-  - args:
+    args:
       [
         "build",
         "-t",
@@ -21,7 +21,7 @@ steps:
         "-f",
         "${_CODE_PATH}/visualize_table/Dockerfile",
       ]
-    id: "BuildDownloadDataImage"
+    id: "BuildVisualizeDataImage"
 
   - name: "python:3.7-slim"
     entrypoint: "/bin/sh"
@@ -55,7 +55,7 @@ steps:
         apt-get install -y python3-pip;
         apt-get install -y libssl-dev libffi-dev;
         /builder/kubectl.bash;
-        pip3 install kfp==0.1.37;
+        pip3 install kfp==0.1.38;
         pip3 install kubernetes;
         python3 create_pipeline_version_and_run.py 
         --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
@@ -68,10 +68,8 @@ steps:
     id: "KaggleCreatePipelineVersionAndRun"
 
 images:
-  - "${_GCR_PATH}/mnist_train:$COMMIT_SHA"
-  - "${_GCR_PATH}/mnist_train:latest"
-  - "${_GCR_PATH}/mnist_tensorboard:$COMMIT_SHA"
-  - "${_GCR_PATH}/mnist_tensorboard:latest"
+  - "${_GCR_PATH}/kaggle_download:$COMMIT_SHA"
+  - "${_GCR_PATH}/kaggle_visualize:$COMMIT_SHA"
 
 substitutions:
   _CODE_PATH: /workspace/kaggle
