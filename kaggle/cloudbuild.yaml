@@ -43,7 +43,7 @@ steps:
         "gs://${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
       ]
     id: "KaggleUploadPipeline"
-    waitFor: ["MnistPackagePipeline"]
+    waitFor: ["KagglePackagePipeline"]
 
 
   - name: "gcr.io/cloud-builders/kubectl"
