@@ -78,4 +78,4 @@ substitutions:
   _NAMESPACE: kubeflow
   _GCR_PATH: gcr.io/dldaisy-project
   _GS_BUCKET: dldaisy-kaggle
-  _PIPELINE_ID: '[PIPELINE ID TO CREATE A VERSION ON], get it on kfp UI'
+  _PIPELINE_ID: 51b8101f-4496-4379-a879-8a0753bd8844
