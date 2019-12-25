@@ -16,6 +16,7 @@ if args.host:
     client = kfp.Client(host=args.host)
 else:
     client = kfp.Client()
+    
 print('your client configuration is :{}'.format(client.pipelines.api_client.configuration.__dict__))
 print('Now in create_pipeline_version_and_run.py...')
 print('your api_client host is:')
