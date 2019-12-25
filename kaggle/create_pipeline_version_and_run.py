@@ -16,6 +16,11 @@ if args.host:
 else:
     client = kfp.Client()
 
+print('your client configuration is :{}'.format(client.pipelines.api_client.configuration.__dict__))
+print('Now in create_pipeline_version_and_run.py...')
+print('your api_client host is:')
+print(client.pipelines.api_client.configuration.host)
+
 #create version
 version_body = {"name": args.version_name, \
 "code_source_url": args.code_source_url, \
