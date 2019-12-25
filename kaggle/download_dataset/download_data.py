@@ -10,7 +10,7 @@ def processAndUpload(
     bucket = storage_client.get_bucket(bucket_name)
     output_blob = bucket.blob('train.csv')
     output_blob.upload_from_filename('train.csv')
-    with open('train.txt', w) as f:
+    with open('train.txt', 'w') as f:
         f.write('gs://'+bucket_name+'/train.csv')
 if __name__ == '__main__':
     import os
