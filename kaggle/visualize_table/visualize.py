@@ -5,7 +5,6 @@ def datatable(
     import json
     train_file = pd.read_csv(train_file_path)
     header = train_file.columns.tolist()
-    train = bucket.
     metadata = {
         'outputs' : [{
             'type': 'table',
