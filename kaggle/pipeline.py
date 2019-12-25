@@ -19,7 +19,8 @@ def kaggle_houseprice():
         name = 'visualize dataset',
         image = 'gcr.io/dldaisy-project/kaggle_visualize:latest',
         command = ['python', 'visualize.py'],
-        arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']]
+        arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']],
+        output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
     ).apply(use_gcp_secret('user-gcp-sa'))
 
 if __name__ == '__main__':
