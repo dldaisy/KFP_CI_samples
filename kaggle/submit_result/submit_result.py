@@ -3,24 +3,21 @@ step #4: submit result to kaggle
 """
 
 def downoadResult(
-    bucket_name,
-    submission_name
+    result_file
 ):
-    from google.cloud import storage
-    storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.get_blob(submission_name)
-    blob.download_to_filename('submission.csv')
+    import gcsfs
+    fs = gcsfs.GCSFileSystem()
+    fs.get(result_file, 'submission.csv')
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--bucket_name', type=str)
-    parser.add_argument('--submission_name', type=str)
+    parser.add_argument('--result_file', type=str)
+    parser.add_argument('--submit_message', type=str, default = 'default submit')
     args = parser.parse_args()
 
-    downoadResult(args.bucket_name, args.submission_name)
+    downoadResult(args.result_file)
     import os
-    os.system("kaggle competitions submit -c house-prices-advanced-regression-techniques -f submission.csv -m 'submit message'")
+    os.system("kaggle competitions submit -c house-prices-advanced-regression-techniques -f submission.csv -m " + args.submit_message)
 
     

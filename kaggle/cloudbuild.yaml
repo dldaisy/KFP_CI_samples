@@ -41,6 +41,21 @@ steps:
       ]
     id: "BuildVisualizeHTMLImage"
 
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_GCR_PATH}/kaggle_train:$COMMIT_SHA",
+        "-t",
+        "${_GCR_PATH}/kaggle_train:latest",
+        "${_CODE_PATH}/train_model",
+        "-f",
+        "${_CODE_PATH}/train_model/Dockerfile",
+      ]
+    id: "BuildTrainImage"
+
   - name: "gcr.io/cloud-builders/docker"
     args:
       [

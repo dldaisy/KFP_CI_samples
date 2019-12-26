@@ -11,8 +11,11 @@ def kaggle_houseprice():
         name ='download dataset',
         image = 'gcr.io/dldaisy-project/kaggle_download:latest',
         command = ['python', 'download_data.py'],
-        arguments = ["--bucket_name", 'dldaisy-test'],
-        file_outputs = {'train_dataset': '/train.txt'}
+        arguments = ["--bucket_name", 'dldaisy-kaggle'],
+        file_outputs = {
+            'train_dataset': '/train.txt',
+            'test_dataset': '/test.txt'
+            }
     ).apply(use_gcp_secret('user-gcp-sa'))
 
     stepVisualizeTable = dsl.ContainerOp(
@@ -32,11 +35,23 @@ def kaggle_houseprice():
         output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
     ).apply(use_gcp_secret('user-gcp-sa'))
 
+    stepTrainModel = dsl.ContainerOp(
+        name = 'train model',
+        image = 'gcr.io/dldaisy-project/kaggle_train:latest',
+        command = ['python', 'train.py'],
+        arguments = ['--train_file',  '%s' % stepDownloadData.outputs['train_dataset'], 
+                     '--test_file', '%s' % stepDownloadData.outputs['test_dataset'],
+                     '--output_bucket', 'gs://dldaisy-kaggle'
+                     ],
+        file_outputs = {'result': '/result_path.txt'}
+    ).apply(use_gcp_secret('user-gcp-sa'))
+
     stepSubmitResult = dsl.ContainerOp(
         name = 'submit result to kaggle competition',
         image = 'gcr.io/dldaisy-project/kaggle_submit:latest',
         command = ['python', 'submit_result.py'],
-        arguments = ['--bucket_name', 'dldaisy-kaggle', '--submission_name', 'submission.csv']
+        arguments = ['--result_file', '%s' % stepTrainModel.outputs['result'],
+                     '--submit_message', 'submit']
     ).apply(use_gcp_secret('user-gcp-sa'))
 
 if __name__ == '__main__':
