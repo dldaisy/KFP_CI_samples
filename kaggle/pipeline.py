@@ -32,6 +32,13 @@ def kaggle_houseprice():
         output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
     ).apply(use_gcp_secret('user-gcp-sa'))
 
+    stepSubmitResult = dsl.ContainerOp(
+        name = 'submit result to kaggle competition',
+        image = 'gcr.io/dldaisy-project/kaggle_submit:latest',
+        command = ['python', 'submit_result.py'],
+        arguments = ['--bucket_name', 'dldaisy-kaggle', '--submission_name', 'submission.csv']
+    ).apply(use_gcp_secret('user-gcp-sa'))
+
 if __name__ == '__main__':
     import kfp.compiler as compiler
     compiler.Compiler().compile(kaggle_houseprice, __file__ + '.zip')
