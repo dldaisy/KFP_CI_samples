@@ -10,7 +10,7 @@ def downoadResult(
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.get_blob(submission_name)
-    blob.download_to_filename('submisstion.csv')
+    blob.download_to_filename('submission.csv')
 
 if __name__ == '__main__':
     import argparse
