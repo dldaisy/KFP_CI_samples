@@ -41,7 +41,7 @@ steps:
       ]
     id: "BuildVisualizeHTMLImage"
 
-    - name: "gcr.io/cloud-builders/docker"
+  - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "build",
