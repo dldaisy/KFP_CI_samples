@@ -191,5 +191,5 @@ if __name__ == '__main__':
     parser.add_argument('--output_bucket', type=str)
 
     args = parser.parse_args()
-    train(args.train_file, args.test_files, args.output_bucket)
+    train(args.train_file, args.test_file, args.output_bucket)
 
