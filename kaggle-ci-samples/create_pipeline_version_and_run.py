@@ -6,6 +6,7 @@ parser.add_argument('--version_name', help='Required. Name of the new version. M
 parser.add_argument('--package_url', help='Required. pipeline package url', type=str)
 parser.add_argument('--pipeline_id', help = 'Required. pipeline id',type=str)
 parser.add_argument('--bucket_name', help='Required. gs bucket to store files', type=str)
+parser.add_argument('--gcr_address', help='Required. Cloud registry address. For example, gcr.io/my-project', type=str)
 parser.add_argument('--host', help='Host address of kfp.Client. Will be get from cluster automatically', type=str, default='')
 parser.add_argument('--run_name', help='name of the new run.', type=str, default='')
 parser.add_argument('--experiment_id', help = 'experiment id',type=str)
@@ -40,7 +41,7 @@ resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
 run_body={"name":run_name,
-          "pipeline_spec":{"parameters": [{"name": "bucket_name", "value": args.bucket_name}]},
+          "pipeline_spec":{"parameters": [{"name": "bucket_name", "value": args.bucket_name}, {"name": "gcr_address", "value": args.gcr_address}]},
           "resource_references": resource_references}
 print('run body is :{}'.format(run_body))
 try:

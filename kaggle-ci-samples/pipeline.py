@@ -6,11 +6,13 @@ from kfp.gcp import use_gcp_secret
     description = "kaggle pipeline that go from download data, train model to display result"
 )
 def kaggle_houseprice(
+    gcr_address: str,
     bucket_name: str
 ):
+    import os
     stepDownloadData = dsl.ContainerOp(
         name ='download dataset',
-        image = 'gcr.io/dldaisy-project/kaggle_download:latest',
+        image = os.path.join(gcr_address, 'kaggle_download:latest'),
         command = ['python', 'download_data.py'],
         arguments = ["--bucket_name", bucket_name],
         file_outputs = {
@@ -21,7 +23,7 @@ def kaggle_houseprice(
 
     stepVisualizeTable = dsl.ContainerOp(
         name = 'visualize dataset in table',
-        image = 'gcr.io/dldaisy-project/kaggle_visualize_table:latest',
+        image = os.path.join(gcr_address, 'kaggle_visualize_table:latest'),
         command = ['python', 'visualize.py'],
         arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset']],
         output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
@@ -29,7 +31,7 @@ def kaggle_houseprice(
 
     stepVisualizeHTML = dsl.ContainerOp(
         name = 'visualize dataset in html',
-        image = 'gcr.io/dldaisy-project/kaggle_visualize_html:latest',
+        image = os.path.join(gcr_address, 'kaggle_visualize_html:latest'),
         command = ['python', 'visualize.py'],
         arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset'],
                      '--bucket_name', bucket_name],
@@ -38,7 +40,7 @@ def kaggle_houseprice(
 
     stepTrainModel = dsl.ContainerOp(
         name = 'train model',
-        image = 'gcr.io/dldaisy-project/kaggle_train:latest',
+        image = os.path.join(gcr_address, 'kaggle_train:latest'),
         command = ['python', 'train.py'],
         arguments = ['--train_file',  '%s' % stepDownloadData.outputs['train_dataset'], 
                      '--test_file', '%s' % stepDownloadData.outputs['test_dataset'],
@@ -49,7 +51,7 @@ def kaggle_houseprice(
 
     stepSubmitResult = dsl.ContainerOp(
         name = 'submit result to kaggle competition',
-        image = 'gcr.io/dldaisy-project/kaggle_submit:latest',
+        image = os.path.join(gcr_address, 'kaggle_submit:latest'),
         command = ['python', 'submit_result.py'],
         arguments = ['--result_file', '%s' % stepTrainModel.outputs['result'],
                      '--submit_message', 'submit']
