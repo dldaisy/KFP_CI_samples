@@ -133,6 +133,6 @@ images:
 substitutions:
   _CODE_PATH: /workspace/kaggle
   _NAMESPACE: kubeflow
-  _GCR_PATH: gcr.io/dldaisy-project
-  _GS_BUCKET: dldaisy-kaggle
-  _PIPELINE_ID: 51b8101f-4496-4379-a879-8a0753bd8844
+  _GCR_PATH: [Your cloud registry address. For example, gcr.io/my-project]
+  _GS_BUCKET: [Your cloud storage bucket name. For example, put "my-bucket" here if your bucket is "gs://my-bucket"]
+  _PIPELINE_ID: [Your pipeline id. Get it from KFP UI.]
