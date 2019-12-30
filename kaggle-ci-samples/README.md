@@ -2,9 +2,7 @@
 
 ## Pipeline Overview
 
-This is a pipeline for [house price prediction](https://www.kaggle.com/c/house-prices-advanced-regression-techniques), an entry-level competition in kaggle. We demonstrate how to complete a kaggle competition by creating a pipeline of steps including downloading data, preprocessing and visualize data, train model and submitting results to kaggle website. The simple pipeline looks as below:
-
-![](pipeline_overview.png)
+This is a pipeline for [house price prediction](https://www.kaggle.com/c/house-prices-advanced-regression-techniques), an entry-level competition in kaggle. We demonstrate how to complete a kaggle competition by creating a pipeline of steps including downloading data, preprocessing and visualize data, train model and submitting results to kaggle website. 
 
 * We refer to [this notebook](https://www.kaggle.com/rajgupta5/house-price-prediction) and [this notebook](https://www.kaggle.com/neviadomski/how-to-get-to-top-25-with-simple-model-sklearn) in terms of model implementation as well as data visualization.
 
