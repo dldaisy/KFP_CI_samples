@@ -1,5 +1,7 @@
 node {
-    def pipeline_id="3def2908-1d36-4bc4-a00e-56e5477b031c"
+    def pipeline_id="[Your pipeline id]"
+    def pipeline_endpoint = "[Your pipeline endpoint]"
+    def gs_bucket = "[Your gs bucket name, for example, my-bucket]"
 
     // build hello-world image
     stage("BuildImages"){
@@ -15,7 +17,7 @@ node {
         withPythonEnv('python3'){
             sh '''
             pip3 install cffi==1.12.3 --upgrade;
-            pip3 install https://storage.googleapis.com/jingzhangjz-kfp/kfp-0.1.23.tar.gz;
+            pip3 install kfp;
             python pipeline.py --commit_id $scm.GIT_COMMIT;
             '''
         }
@@ -26,7 +28,7 @@ node {
     stage("UploadPipeline"){
         //copy pipeline.py.zip to a storage without access control
         sh"""
-        gsutil cp ./pipeline.py.zip gs://test-pipeline-version/$scm.GIT_COMMIT/pipeline.zip
+        gsutil cp ./pipeline.py.zip gs://$gs_bucket/$scm.GIT_COMMIT/pipeline.zip
         """
     }
 
@@ -36,13 +38,12 @@ node {
         def run_name = "$scm.GIT_COMMIT-run"
         
 
-        data = sh(script: """echo '{"name": "$version_name", "code_source_url": "https://github.com/dldaisy/jenkins_test.git/tree/$scm.GIT_COMMIT", "package_url": {"pipeline_url": "https://storage.googleapis.com/test-pipeline-version/$scm.GIT_COMMIT/pipeline.zip"}, "resource_references": [{"key": {"id": "$pipeline_id", "type":3}, "relationship":1}]}';""", returnStdout: true).trim()
+        data = sh(script: """echo '{"name": "$version_name", "package_url": {"pipeline_url": "https://storage.googleapis.com/test-pipeline-version/$scm.GIT_COMMIT/pipeline.zip"}, "resource_references": [{"key": {"id": "$pipeline_id", "type":3}, "relationship":1}]}';""", returnStdout: true).trim()
         //echo "data is: $data"
-        version=sh(script: """curl -H "Content-Type: application/json" -X POST -d '$data' http://34.70.82.171:8888/apis/v1beta1/pipeline_versions | jq -r ".id";""", returnStdout: true).trim()
-        // version=sh(script: """curl -H "Content-Type: application/json" -X POST -d '$data' http://34.70.82.171:8888/apis/v1beta1/pipeline_versions;""", returnStdout: true)
-        rundata=sh(script: """echo '{"name": "$run_name", "resource_references": [{"key": {"id": "$version", "type":4}, "relationship":2}, {"key": {"id": "d5a136ac-f931-4d05-8c4c-97851a4ebd6b", "type":1}, "relationship": 1}]}';""", returnStdout: true).trim()
+        version=sh(script: """curl -H "Content-Type: application/json" -X POST -d '$data' "$pipeline_endpoint"/apis/v1beta1/pipeline_versions | jq -r ".id";""", returnStdout: true).trim()
+        rundata=sh(script: """echo '{"name": "$run_name", "resource_references": [{"key": {"id": "$version", "type":4}, "relationship":2}]}';""", returnStdout: true).trim()
         //echo "run data is: $rundata"
-        sh(script: """curl -H "Content-Type: application/json" -X POST -d '$rundata' http://34.70.82.171:8888/apis/v1beta1/runs""")
+        sh(script: """curl -H "Content-Type: application/json" -X POST -d '$rundata' "$pipeline_endpoint"/apis/v1beta1/runs""")
         
     }
 }
