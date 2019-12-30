@@ -4,11 +4,11 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/dldaisy-project/helloworld-ci:$COMMIT_SHA",
+        "${_GCR_PATH}/helloworld-ci:$COMMIT_SHA",
         "-t",
-        "gcr.io/dldaisy-project/helloworld-ci:latest",
+        "${_GCR_PATH}/helloworld-ci:latest",
         "--cache-from",
-        "gcr.io/dldaisy-project/helloworld-ci:latest",
+        "${_GCR_PATH}/helloworld-ci:latest",
         "${_CODE_PATH}/helloworld",
       ]
     id: "BuildImages"
@@ -18,7 +18,7 @@ steps:
         "-c",
         "cd ${_CODE_PATH};
         pip3 install cffi==1.12.3 --upgrade;
-        pip3 install https://storage.googleapis.com/jingzhangjz-kfp/kfp-0.1.23.tar.gz;
+        pip3 install kfp;
         python pipeline.py --commit_id $COMMIT_SHA;
         cp pipeline.py.zip /workspace/pipeline.zip",
       ]
@@ -29,25 +29,29 @@ steps:
       [
         "cp",
         "/workspace/pipeline.zip",
-        "gs://test-pipeline-version/$COMMIT_SHA/pipeline.zip",
+        "gs://${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip",
       ]
     id: "UploadPipeline"
     waitFor: ["PackagePipeline"]
 
 
-  - name: "python:3.7-slim"
-    args: [
-        "pip3 install kfp==0.1.37;
-         python create_pipeline_version_and_run.py
-        ",
+  - name: "gcr.io/cloud-builders/curl"
+    entrypoint: "/bin/sh"
+    args: 
+      [
+        "-c",
+        "curl.bash $COMMIT_SHA ${_PIPELINE_ID} ${_GS_BUCKET} ${_PIPELINE_ENDPOINT}"
       ]
     id: "CreatePipelineVersionAndRun"
+
 images:
-  - "gcr.io/dldaisy-project/helloworld-ci:$COMMIT_SHA"
-  - "gcr.io/dldaisy-project/helloworld-ci:latest"
+  - "${_GCR_PATH}/helloworld-ci:$COMMIT_SHA"
+  - "${_GCR_PATH}/helloworld-ci:latest"
 
 substitutions:
+  _GCR_PATH: [Your cloud registry path. For example, gcr.io/myproject]
   _CODE_PATH: /workspace/hello-world
   _NAMESPACE: kubeflow
-  _PIPELINE_ID: 3def2908-1d36-4bc4-a00e-56e5477b031c
-  _EXPERIMENT_NAME: helloworldexp
+  _PIPELINE_ID: [Your kubeflow pipeline id to create a version on. Get it from kfp UI.]
+  _GS_BUCKET: [Name of your cloud storage bucket. For example, 'myproject-helloworld']
+  _PIPELINE_ENDPOINT: [Your exposed pipeline endpoint.]
