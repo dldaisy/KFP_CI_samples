@@ -69,8 +69,16 @@ class TestClient:
         return pipeline_ids
             
 if __name__ == '__main__':
-    test_client = TestClient(test_num=7)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--create_pipeline_num', type = str)
+    parser.add_argument('--create_pipeline_version_num', type = str)
+
+    args = parser.parse_args()
+
+    test_client = TestClient(
+        create_pipeline_num = args.create_pipeline_num,
+        create_pipeline_version_num = args.create_pipeline_version_num
+    )
     pipeline_ids = test_client.test_create_pipeline()
-    print(len(pipeline_ids))
-    print(pipeline_ids)
     test_client.test_create_pipeline_versions(pipeline_ids)
