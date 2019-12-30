@@ -27,10 +27,13 @@ args = parser.parse_args()
     name='Mnist Sample',
     description='Normal sample to demonstrate how to use CI with KFP'
 )
-def helloworld_ci_pipeline():
+def helloworld_ci_pipeline(
+    gcr_address: str
+):
+    import os
     train = dsl.ContainerOp(
         name='mnist train',
-        image='gcr.io/dldaisy-project/mnist_train:' + args.commit_id
+        image = os.path.join(gcr_address, 'mnist_train:', args.commit_id)
     ).apply(use_gcp_secret('user-gcp-sa'))
 
 

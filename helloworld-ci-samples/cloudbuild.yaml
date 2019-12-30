@@ -40,7 +40,7 @@ steps:
     args: 
       [
         "-c",
-        "curl.bash $COMMIT_SHA ${_PIPELINE_ID} ${_GS_BUCKET} ${_PIPELINE_ENDPOINT}"
+        "curl.bash $COMMIT_SHA ${_PIPELINE_ID} ${_GS_BUCKET} ${_PIPELINE_ENDPOINT} ${_GCR_PATH}"
       ]
     id: "CreatePipelineVersionAndRun"
 

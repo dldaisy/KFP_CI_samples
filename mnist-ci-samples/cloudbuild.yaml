@@ -66,7 +66,8 @@ steps:
         --tensorboard_bucket gs://${_GS_BUCKET}
         --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
-        --version_name $COMMIT_SHA"
+        --version_name $COMMIT_SHA
+        --gcr_address ${_GCR_PATH}"
       ]
     env:
       - "CLOUDSDK_COMPUTE_ZONE=us-central1-a"

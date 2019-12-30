@@ -12,10 +12,14 @@ args = parser.parse_args()
    name='mnist pipeline',
    description='A pipeline to train a model on mnist dataset and start a tensorboard.'
 )
-def mnist_pipeline(storage_bucket: str):
+def mnist_pipeline(
+   storage_bucket: str,
+   gcr_address: str
+   ):
+   import os
    train_step = dsl.ContainerOp(
        name='train mnist model',
-       image='gcr.io/dldaisy-project/mnist_train:latest',
+       image = os.path.join(gcr_address, 'mnist_train:latest'),
        command = ['python', '/mnist.py'],
        arguments = ['--storage_bucket', storage_bucket],
        file_outputs = {'logdir': '/logdir.txt'},
@@ -23,7 +27,7 @@ def mnist_pipeline(storage_bucket: str):
 
    visualize_step = dsl.ContainerOp(
       name = 'visualize training result with tensorboard',
-      image = 'gcr.io/dldaisy-project/mnist_tensorboard:latest',
+      image = os.path.join(gcr_address, 'mnist_tensorboard:latest'),
       command = ['python', '/tensorboard.py'],
       arguments = ['--logdir', '%s' % train_step.outputs['logdir']],
       output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}

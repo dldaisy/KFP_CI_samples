@@ -6,6 +6,8 @@ data='{"name":'\""ci-$1"\"', "code_source_url": "https://github.com/kubeflow/pip
 version=$(curl -H "Content-Type: application/json" -X POST -d "$data" "$4"/apis/v1beta1/pipeline_versions | jq -r ".id")
 
 # create run
-rundata='{"name":'\""$1-run"\"', "resource_references": [{"key": {"id": '\""$version"\"', "type":4}, "relationship":2}'
+rundata='{"name":'\""$1-run"\"', 
+"resource_references": [{"key": {"id": '\""$version"\"', "type":4}, "relationship":2}],
+"pipeline_spec":{"parameters": [{"name": "gcr_address", "value": '\""$5"\"'}]}'
 echo "$rundata"
 curl -H "Content-Type: application/json" -X POST -d "$rundata" "$4"/apis/v1beta1/runs
