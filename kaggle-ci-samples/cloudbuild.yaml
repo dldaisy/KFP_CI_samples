@@ -131,8 +131,8 @@ images:
   
 
 substitutions:
-  _CODE_PATH: /workspace/kaggle
+  _CODE_PATH: /workspace/kaggle-ci-samples
   _NAMESPACE: kubeflow
-  _GCR_PATH: [Your cloud registry address. For example, gcr.io/my-project]
-  _GS_BUCKET: [Your cloud storage bucket name. For example, put "my-bucket" here if your bucket is "gs://my-bucket"]
-  _PIPELINE_ID: [Your pipeline id. Get it from KFP UI.]
+  _GCR_PATH: gcr.io/alert-ability-264507
+  _GS_BUCKET: gs://dldaisy-test-bucket
+  _PIPELINE_ID: 625a1522-d145-4016-8b77-20215c76bce2
