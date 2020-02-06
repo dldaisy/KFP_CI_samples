@@ -77,7 +77,8 @@ steps:
         "cd ${_CODE_PATH};
         pip3 install cffi==1.12.3 --upgrade;
         pip3 install kfp==0.1.38;
-        python pipeline.py;
+        python pipeline.py
+        --gcr_address ${_GCR_PATH};
         cp pipeline.py.zip /workspace/pipeline.zip",
       ]
     id: "KagglePackagePipeline"
