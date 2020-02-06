@@ -16,3 +16,4 @@ This is a pipeline for [house price prediction](https://www.kaggle.com/c/house-p
 * Fill in your kaggle_username and kaggle_key in Dockerfiles to authenticate to kaggle. You can get them from an API token created from your kaggle account page.
 * Set up cloud build triggers for Continuous Integration
 * Change the images in pipeline.py to the ones you built in cloudbuild.yaml 
+* Replace the CLOUDSDK_COMPUTE_ZONE, CLOUDSDK_CONTAINER_CLUSTER to your own cluster
