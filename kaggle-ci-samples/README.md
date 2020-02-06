@@ -17,6 +17,4 @@ This is a pipeline for [house price prediction](https://www.kaggle.com/c/house-p
 * Set up cloud build triggers for Continuous Integration
 * Change the images in pipeline.py to the ones you built in cloudbuild.yaml 
 * Replace the CLOUDSDK_COMPUTE_ZONE, CLOUDSDK_CONTAINER_CLUSTER to your own cluster
-* Grant kubernetes engine access to cloud build
-* user-gcp-sa
-* enable kubernetes engine developer in cloud build setting
+* Enable kubernetes engine developer in cloud build setting
