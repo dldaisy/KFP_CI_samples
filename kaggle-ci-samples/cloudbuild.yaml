@@ -103,12 +103,11 @@ steps:
         apt-get install -y python3-pip;
         apt-get install -y libssl-dev libffi-dev;
         /builder/kubectl.bash;
-        pip3 install kfp==0.1.38;
+        pip3 install kfp;
         pip3 install kubernetes;
         python3 create_pipeline_version_and_run.py 
-        --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
         --pipeline_id ${_PIPELINE_ID} 
-        --version_name $COMMIT_SHA
+        --commit_sha $COMMIT_SHA
         --bucket_name ${_GS_BUCKET}
         --gcr_address ${_GCR_PATH}"
       ]
