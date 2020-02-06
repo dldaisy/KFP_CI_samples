@@ -88,7 +88,7 @@ steps:
       [
         "cp",
         "/workspace/pipeline.zip",
-        "gs://${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
+        "${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
       ]
     id: "KaggleUploadPipeline"
     waitFor: ["KagglePackagePipeline"]
