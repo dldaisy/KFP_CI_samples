@@ -133,7 +133,6 @@ images:
 substitutions:
   _CODE_PATH: /workspace/kaggle-ci-samples
   _NAMESPACE: kubeflow
-  _GCR_PATH: [Your gcr address. For example, gcr.io/my-project-id]
-  _GS_BUCKET: [Your gs bucket name. For example, gs://my-project-bucket]
-  _PIPELINE_ID: [Your Pipeline ID under which new version will be created. \
-                  You can get it on kubeflow pipeline UI. For example, 625a1522-d145-4016-8b77-20215c76bce2]
+  _GCR_PATH: gcr.io/alert-ability-264507
+  _GS_BUCKET: gs://dldaisy-test-bucket
+  _PIPELINE_ID: 625a1522-d145-4016-8b77-20215c76bce2
