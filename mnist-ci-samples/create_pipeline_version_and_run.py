@@ -2,12 +2,10 @@ import kfp
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--tensorboard_bucket', help='Required. gs bucket to store tensorboard', type=str)
-parser.add_argument('--version_name', help='Required. Name of the new version. Must be unique.', type=str)
-parser.add_argument('--package_url', help='Required. pipeline package url', type=str)
+parser.add_argument('--bucket_name', help='Required. gs bucket to store tensorboard', type=str)
+parser.add_argument('--commit_sha', help='Required. Name of the new version. Must be unique.', type=str)
 parser.add_argument('--pipeline_id', help = 'Required. pipeline id',type=str)
-parser.add_argument('--gcr_address', help='Required. Your cloud registry path. For example, gcr.io/my-project', type=str)
-parser.add_argument('--host', help='Host address of kfp.Client. Will be get from cluster automatically, type=str, default='')
+parser.add_argument('--host', help='Host address of kfp.Client. Will be get from cluster automatically', type=str, default='')
 parser.add_argument('--run_name', help='name of the new run.', type=str, default='')
 parser.add_argument('--experiment_id', help = 'experiment id',type=str)
 parser.add_argument('--code_source_url', help = 'url of source code', type=str, default='')
@@ -17,15 +15,12 @@ if args.host:
     client = kfp.Client(host=args.host)
 else:
     client = kfp.Client()
-
-print('your client configuration is :{}'.format(client.pipelines.api_client.configuration.__dict__))
-print('Now in create_pipeline_version_and_run.py...')
-print('your api_client host is:')
-print(client.pipelines.api_client.configuration.host)
+import os
+package_url = os.path.join('https://storage.googleapis.com', args.bucket_name.lstrip('gs://'), args.commit_sha, 'pipeline.zip')
 #create version
-version_body = {"name": args.version_name, \
+version_body = {"name": args.commit_sha, \
 "code_source_url": args.code_source_url, \
-"package_url": {"pipeline_url": args.package_url}, \
+"package_url": {"pipeline_url": package_url}, \
 "resource_references": [{"key": {"id": args.pipeline_id, "type":3}, "relationship":1}]}
 print('version body: {}'.format(version_body))
 response = client.pipelines.create_pipeline_version(version_body)
@@ -40,7 +35,7 @@ resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
 run_body={"name":run_name,
-          "pipeline_spec":{"parameters": [{"name": "storage_bucket", "value": args.tensorboard_bucket}]},
+          "pipeline_spec":{"parameters": [{"name": "storage_bucket", "value": args.bucket_name}]},
           "resource_references": resource_references}
 print('run body is :{}'.format(run_body))
 try:

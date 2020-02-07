@@ -35,7 +35,7 @@ steps:
         "cd ${_CODE_PATH};
         pip3 install cffi==1.12.3 --upgrade;
         pip3 install kfp==0.1.37;
-        python pipeline.py --commit_id $COMMIT_SHA;
+        python pipeline.py --gcr_address ${_GCR_PATH};
         cp pipeline.py.zip /workspace/pipeline.zip",
       ]
     id: "MnistPackagePipeline"
@@ -45,7 +45,7 @@ steps:
       [
         "cp",
         "/workspace/pipeline.zip",
-        "gs://${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
+        "${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip"
       ]
     id: "MnistUploadPipeline"
     waitFor: ["MnistPackagePipeline"]
@@ -63,15 +63,13 @@ steps:
         pip3 install kfp==0.1.37;
         pip3 install kubernetes;
         python3 create_pipeline_version_and_run.py 
-        --tensorboard_bucket gs://${_GS_BUCKET}
-        --package_url https://storage.googleapis.com/${_GS_BUCKET}/$COMMIT_SHA/pipeline.zip
-        --pipeline_id ${_PIPELINE_ID} 
-        --version_name $COMMIT_SHA
-        --gcr_address ${_GCR_PATH}"
+        --bucket_name ${_GS_BUCKET}
+        --commit_sha $COMMIT_SHA
+        --pipeline_id ${_PIPELINE_ID}"
       ]
     env:
       - "CLOUDSDK_COMPUTE_ZONE=us-central1-a"
-      - "CLOUDSDK_CONTAINER_CLUSTER=client"
+      - "CLOUDSDK_CONTAINER_CLUSTER=sample"
     id: "MnistCreatePipelineVersionAndRun"
 
 images:
@@ -81,9 +79,9 @@ images:
   - "${_GCR_PATH}/mnist_tensorboard:latest"
 
 substitutions:
-  _CODE_PATH: /workspace/mnist
+  _CODE_PATH: /workspace/mnist-ci-samples
   _NAMESPACE: kubeflow
-  _GCR_PATH: '[YOUR CLOUD REGISTRY], for example: gcr.io/my-project'
-  _GS_BUCKET: '[YOUR GS BUCKET TO STORE PIPELINE AND LAUNCH TENSORBOARD], for example: Put "my-bucket" here if your bucket is "gs://my-bucket"'
-  _PIPELINE_ID: '[PIPELINE ID TO CREATE A VERSION ON], get it on kfp UI'
+  _GCR_PATH: gcr.io/alert-ability-264507
+  _GS_BUCKET: gs://dldaisy-test-bucket
+  _PIPELINE_ID: f6f8558a-6eec-4ef4-b343-a650473ee613
 
