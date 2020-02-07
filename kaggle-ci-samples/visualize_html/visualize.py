@@ -47,7 +47,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--bucket_name', type = str)
-    parser.add_argument('commit_sha', type = str)
+    parser.add_argument('--commit_sha', type = str)
     parser.add_argument('--train_file_path', type = str)
     args = parser.parse_args()
 
