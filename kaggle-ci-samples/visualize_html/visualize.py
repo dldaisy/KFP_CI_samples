@@ -2,14 +2,15 @@
 
 def datahtml(
     bucket_name,
+    commit_sha,
     train_file_path
 ):
     import json
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
-    image_path = os.path.join(bucket_name, 'visualization.png')
-    image_url = os.path.join('https://storage.googleapis.com', bucket_name.lstrip('gs://'), 'visualization.png')
+    image_path = os.path.join(bucket_name, commit_sha, 'visualization.png')
+    image_url = os.path.join('https://storage.googleapis.com', bucket_name.lstrip('gs://'), commit_sha, 'visualization.png')
     html_path = os.path.join(bucket_name, 'kaggle.html')
     # ouptut visualization to a file
 
@@ -46,7 +47,8 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--bucket_name', type = str)
+    parser.add_argument('commit_sha', type = str)
     parser.add_argument('--train_file_path', type = str)
     args = parser.parse_args()
 
-    datahtml(args.bucket_name, args.train_file_path)
+    datahtml(args.bucket_name, args.commit_sha, args.train_file_path)

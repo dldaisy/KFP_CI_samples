@@ -6,7 +6,8 @@ from kfp.gcp import use_gcp_secret
     description = "kaggle pipeline that go from download data, train model to display result"
 )
 def kaggle_houseprice(
-    bucket_name: str
+    bucket_name: str,
+    commit_sha: str
 ):
     import os
     stepDownloadData = dsl.ContainerOp(
@@ -33,6 +34,7 @@ def kaggle_houseprice(
         image = os.path.join(args.gcr_address, 'kaggle_visualize_html:latest'),
         command = ['python', 'visualize.py'],
         arguments = ['--train_file_path', '%s' % stepDownloadData.outputs['train_dataset'],
+                     '--commit_sha', commit_sha,
                      '--bucket_name', bucket_name],
         output_artifact_paths={'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json'}
     ).apply(use_gcp_secret('user-gcp-sa'))

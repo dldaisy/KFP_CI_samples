@@ -43,7 +43,8 @@ resource_references = [{"key": {"id": version_id, "type":4}, "relationship":2}]
 if args.experiment_id:
     resource_references.append({"key": {"id": args.experiment_id, "type":1}, "relationship": 1})
 run_body={"name":run_name,
-          "pipeline_spec":{"parameters": [{"name": "bucket_name", "value": args.bucket_name}]},
+          "pipeline_spec":{"parameters": [{"name": "bucket_name", "value": args.bucket_name}, 
+                                          {"name": "commit_sha", "value": args.commit_sha}]},
           "resource_references": resource_references}
 print('run body is :{}'.format(run_body))
 try:
